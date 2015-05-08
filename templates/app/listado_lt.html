@@ -1,0 +1,19 @@
+{% extends "app/base.html" %}
+
+{% block title %}
+{{object_name}} | Listado
+{% endblock %}
+
+{% block content %}
+<h2>Listado {{object_name}}</h2>
+<table>
+{% for object in object_list %}
+<tr><th>Nombre:</th><td>{{object.nombre}}</td></tr>
+<tr><th>Apellidos</th><td>{{object.apellidos}}</td></tr>
+<tr><th>Cédula:</th><td>{{object.cedula}}</td></tr>
+<tr><th>Sexo:</th><td>{{object.getSexo}}</td></tr>
+<tr><th>Registro:</th><td>{{object.fecha_registro}}</td></tr>
+<tr><th>Institución:</th><td>{{object.institucion}}</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Registro de {{object_name}}{% endblock %}
+
+{% block content %}
+<h3>{% if object %}Actualizando {{object}}{% else %}Registrar {{object_name}}{% endif %}</h3>
+<form action="" method="post">{% csrf_token %}
+<table>
+{{form}}
+</table>
+<input type="submit" value="Registrar {{object_name}}"/></form>
+{% endblock %}
