@@ -17,6 +17,9 @@ from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from app.views import CrearLeader, EditarLeader, DetallesLeader, BorrarLeader, ListarLeader
 
+institucion_url = patterns ('',
+)
+
 leaderteacher_url = patterns ('',
 	url(r'^registrar$', CrearLeader.as_view(), name='crear_leader'),
     url(r'^listados$', ListarLeader.as_view(), name='listar_LT'),
@@ -25,7 +28,13 @@ leaderteacher_url = patterns ('',
     url(r'^(?P<slug>[\w-]+)/eliminar$', BorrarLeader.as_view(), name='eliminar_LT'),
 )
 
+secretaria_url = patterns ('',
+    url(r'^institucion/', include(institucion_url)),
+)
+
 urlpatterns = patterns ('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^leader/', include(leaderteacher_url)),
+    url(r'^secretaria/', include(secretaria_url)),
+
 )
