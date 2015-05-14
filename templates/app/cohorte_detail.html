@@ -1,0 +1,12 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Información {{object}}{% endblock %}
+
+{% block content %}
+<table>
+	<tr><th>Cohorte Numero:</th><td>{{object.numero_cohorte}}</td></tr>
+	<tr><th>Semestre Cohorte:</th><td>{{object.semestre}}</td></tr>
+	<tr><th>Fecha de Inicio:</th><td>{{object.fecha_inicio}}</td></tr>
+	<tr><th>Fecha de Finalizacion:</th><td>{{object.fecha_fin}}</td></tr>
+</table>
+{% endblock %}

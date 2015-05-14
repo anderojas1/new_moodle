@@ -1,0 +1,17 @@
+{% extends "app/base.html" %}
+
+{% block title %}
+{{object_name}} | Listado
+{% endblock %}
+
+{% block content %}
+<h2>Listado {{object_name}}</h2>
+<table>
+{% for object in object_list %}
+	<tr><th>Cohorte Numero:</th><td>{{object.numero_cohorte}}</td></tr>
+	<tr><th>Semestre Cohorte:</th><td>{{object.semestre}}</td></tr>
+	<tr><th>Fecha de Inicio:</th><td>{{object.fecha_inicio}}</td></tr>
+	<tr><th>Fecha de Finalizacion:</th><td>{{object.fecha_fin}}</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

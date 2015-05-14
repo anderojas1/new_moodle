@@ -1,0 +1,12 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Información {{object}}{% endblock %}
+
+{% block content %}
+<table>
+	<tr><th>Maricula Numero:</th><td>{{object.slug}}</td></tr>
+	<tr><th>Leader Teacher Matriculado:</th><td>{{object.identificacion_leader_teacher}}</td></tr>
+	<tr><th>Curso Matriculado:</th><td>{{object.identificacion_curso}}</td></tr>
+	<tr><th>Estado de la Matricula:</th><td>{{object.estado_matricula}}</td></tr>
+</table>
+{% endblock %}

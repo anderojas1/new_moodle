@@ -1,12 +1,30 @@
 from django.db import models
 from django.core.validators import RegexValidator
 
+class IntegerRangeField(models.IntegerField):
+    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+        self.min_value, self.max_value = min_value, max_value
+        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+    def formfield(self, **kwargs):
+        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
+        defaults.update(kwargs)
+        return super(IntegerRangeField, self).formfield(**defaults)
+
+class FloatRangeField(models.FloatField):
+    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+        self.min_value, self.max_value = min_value, max_value
+        models.FloatField.__init__(self, verbose_name, name, **kwargs)
+    def formfield(self, **kwargs):
+        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
+        defaults.update(kwargs)
+        return super(FloatRangeField, self).formfield(**defaults)
+
 # Create your models here.
 class Persona(models.Model):
 	opt_sexo = ((0, 'Masculino'), (1, 'Femenino'))
-	patron_numero_cedula = RegexValidator(regex = r'^\+?1?\d{9, 15}$')
-	patron_numero_celular = RegexValidator(regex = r'^\+?\?\d{9, 10}$')
-	patron_solo_string = RegexValidator(regex='^[a-zA-Z]*$')
+	patron_numero_cedula = RegexValidator(regex='^[0-9]*$')
+	patron_numero_celular = RegexValidator(regex='^[0-9]*$')
+	patron_solo_string = RegexValidator(regex='^[a-zA-Z\ ]*$')
 	cedula = models.CharField(primary_key=True, max_length=30, validators=[patron_numero_cedula])
 	nombre = models.CharField(max_length=30, validators=[patron_solo_string])
 	apellidos = models.CharField(max_length=40, validators=[patron_solo_string])
@@ -87,3 +105,237 @@ class SecretariaEducacion(models.Model):
 	def save(self, *args, **kwargs):
 		self.slug = self.codigo
 		super(InstitucionEducativa, self).save(*args, **kwargs)
+
+#+--------------------------------------------------+
+#+                  CODIGO NUEVO                    +
+#+--------------------------------------------------+
+#+--------------------------------------------------+
+#+                  CLASE COHORTE                   +
+#+--------------------------------------------------+
+class Cohorte(models.Model):
+	numero_cohorte = models.CharField(max_length=60)
+	semestre = models.CharField(max_length=60)
+	fecha_inicio = models.DateField()
+	fecha_fin = models.DateField()
+	slug = models.SlugField(primary_key=True)
+
+	class Meta:
+		ordering = ['numero_cohorte']
+
+	def __str__(self):
+		return self.numero_cohorte + "-" + self.semestre
+
+	def save(self, *args, **kwargs):
+		self.slug = self.numero_cohorte + "-" + self.semestre
+		super(Cohorte, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_cohorte', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_cohorte', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_cohorte', [self.slug])
+
+#+--------------------------------------------------+
+#+                  CLASE CURSO                     +
+#+--------------------------------------------------+
+class Curso(models.Model):
+	codigo_curso = models.CharField(max_length=60, primary_key=True)
+	nombre = models.CharField(max_length=60)
+	descripcion = models.CharField(max_length=500)
+	slug = models.SlugField()
+
+	class Meta:
+		ordering = ['codigo_curso']
+
+	def __str__(self):
+		return self.codigo_curso
+
+	def save(self, *args, **kwargs):
+		self.slug = self.codigo_curso
+		super(Curso, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_curso', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_curso', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_curso', [self.slug])
+
+#+--------------------------------------------------+
+#+                  CLASE AREA                      +
+#+--------------------------------------------------+
+class Area(models.Model):
+	codigo_area = models.CharField(max_length=60, primary_key=True)
+	nombre = models.CharField(max_length=60)
+	descripcion = models.CharField(max_length=500)
+	slug = models.SlugField()
+
+	class Meta:
+		ordering = ['codigo_area']
+
+	def __str__(self):
+		return self.codigo_area
+
+	def save(self, *args, **kwargs):
+		self.slug = self.codigo_area
+		super(Area, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_area', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_area', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_area', [self.slug])
+
+#+--------------------------------------------------+
+#+                  CLASE MATRICULA                 +
+#+--------------------------------------------------+
+class Matricula(models.Model):
+	opt_estado_matricula = ((0, 'Matriculado'), (1, 'No Matriculado'),(2, 'En Espera de Matricula'))
+	identificacion_leader_teacher = models.ForeignKey(LeaderTeacher) #models.CharField(max_length=60)
+	identificacion_curso = models.ForeignKey(Curso) #models.CharField(max_length=60)
+	estado_matricula = models.PositiveSmallIntegerField(choices=opt_estado_matricula)
+	nota_final_curso = models.CharField(max_length=60, default=0)
+	slug = models.SlugField(primary_key=True)
+
+	class Meta:
+		ordering = ['estado_matricula']
+
+	def __str__(self):
+		return self.identificacion_leader_teacher + "-" + self.identificacion_curso
+
+	def save(self, *args, **kwargs):
+		self.slug = self.identificacion_leader_teacher + "-" + self.identificacion_curso
+		super(Matricula, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_matricula', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_matricula', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_matricula', [self.slug])
+
+#+--------------------------------------------------+
+#+                  CLASE USUARIO                   +
+#+--------------------------------------------------+
+class Usuario(models.Model):
+	opt_perfil = ((0, 'Perfil 0'), (1, 'Perfil 1'), (2, 'Perfil 2'), (3, 'Perfil 3'))
+	usuario = models.CharField(max_length=15, primary_key=True)
+	contrasena = models.CharField(max_length=15)
+	perfil = models.PositiveSmallIntegerField(choices=opt_perfil)
+	slug = models.SlugField()
+
+	class Meta:
+		ordering = ['usuario']
+
+	def __str__(self):
+		return self.usuario
+
+	def save(self, *args, **kwargs):
+		self.slug = self.usuario
+		super(Usuario, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_usuario', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_usuario', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_usuario', [self.slug])
+
+#+--------------------------------------------------+
+#+                  CLASE ACTIVIDAD                 +
+#+--------------------------------------------------+
+
+class Actividad(models.Model):
+	codigo = models.CharField(max_length=15, primary_key=True)
+	titulo = models.CharField(max_length=30)
+	descripcion = models.CharField(max_length=500)
+	porcentaje = IntegerRangeField(min_value=1, max_value=100)
+	fecha_inicio = models.DateField()
+	fecha_cierre = models.DateField()
+	slug = models.SlugField()
+
+	class Meta:
+		ordering = ['titulo']
+
+	def __str__(self):
+		return self.titulo
+
+	def save(self, *args, **kwargs):
+		self.slug = self.codigo
+		super(Actividad, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_actividad', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_actividad', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_actividad', [self.slug])
+
+#+--------------------------------------------------+
+#+                  CLASE TERNARIA                  +
+#+--------------------------------------------------+
+class Ternaria(models.Model):
+	identificador = models.CharField(max_length=15, primary_key=True)
+	actividad = models.ForeignKey(Actividad)
+	cohorte = models.ForeignKey(Cohorte)
+	leader_teacher = models.ForeignKey(LeaderTeacher)
+	nota = FloatRangeField(min_value=1, max_value=5)
+	slug = models.SlugField()
+
+	class Meta:
+		ordering = ['identificador']
+
+	def __str__(self):
+		return self.identificador
+
+	def save(self, *args, **kwargs):
+		self.slug = self.identificador
+		super(Ternaria, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_ternaria', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_ternaria', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_ternaria', [self.slug])
+
+#+--------------------------------------------------+
+#+                  CLASE TERNARIA                  +
+#+--------------------------------------------------+

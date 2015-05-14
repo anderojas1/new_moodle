@@ -1,0 +1,10 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Información {{object}}{% endblock %}
+
+{% block content %}
+<table>
+<tr><th>Usuario:</th><td>{{object.usuario}}</td></tr>
+<tr><th>Perfil:</th><td>{{object.perfil}}</td></tr>
+</table>
+{% endblock %}
