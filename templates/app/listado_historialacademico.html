@@ -1,0 +1,17 @@
+{% extends "app/base.html" %}
+
+{% block title %}
+{{object_name}} | Listado
+{% endblock %}
+
+{% block content %}
+<h2>Listado {{object_name}}</h2>
+<table>
+{% for object in object_list %}
+<tr><th>Titulo:</th><td>{{object.titulo}}</td></tr>
+<tr><th>Leader Teacher:</th><td>{{object.leader_teacher}}</td></tr>
+<tr><th>Institucion:</th><td>{{object.institucion}}</td></tr>
+<tr><th>Fecha:</th><td>{{object.fecha}}</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

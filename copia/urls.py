@@ -27,6 +27,8 @@ from app.views import CrearArea, EditarArea, DetallesArea, BorrarArea, ListarAre
 from app.views import CrearUsuario, EditarUsuario, DetallesUsuario, BorrarUsuario, ListarUsuario
 from app.views import CrearActividad, EditarActividad, DetallesActividad, BorrarActividad, ListarActividad
 from app.views import CrearTernaria, EditarTernaria, DetallesTernaria, BorrarTernaria, ListarTernaria
+from app.views import CrearHistorialAcademico, EditarHistorialAcademico, DetallesHistorialAcademico,BorrarHistorialAcademico, ListarHistorialAcademico
+
 
 institucion_url = patterns ('',
 )
@@ -120,6 +122,16 @@ ternaria_url = patterns ('',
     url(r'^(?P<slug>[\w-]+)/consultar$', DetallesTernaria.as_view(), name='consultar_ternaria'),
     url(r'^(?P<slug>[\w-]+)/eliminar$', BorrarTernaria.as_view(), name='eliminar_ternaria'))
 
+#+--------------------------------------------------+
+#+            CLASE HISTORIALACADEMICO              +
+#+--------------------------------------------------+
+historialacademico_url = patterns ('',
+    url(r'^registrar$', CrearHistorialAcademico.as_view(), name='crear_historialacademico'),
+    url(r'^listados$', ListarHistorialAcademico.as_view(), name='listar_historialacademico'),
+    url(r'^(?P<slug>[\w-]+)/actualizar$', EditarHistorialAcademico.as_view(), name='editar_historialacademico'),
+    url(r'^(?P<slug>[\w-]+)/consultar$', DetallesHistorialAcademico.as_view(), name='consultar_historialacademico'),
+    url(r'^(?P<slug>[\w-]+)/eliminar$', BorrarHistorialAcademico.as_view(), name='eliminar_historialacademico'))
+
 
 urlpatterns = patterns ('',
     url(r'^admin/', include(admin.site.urls)),
@@ -131,5 +143,6 @@ urlpatterns = patterns ('',
     url(r'^area/', include(area_url)),
     url(r'^actividad/', include(actividad_url)),
     url(r'^ternaria/', include(ternaria_url)),
+    url(r'^historial_academico/', include(historialacademico_url)),
     url(r'^usuario/', include(usuario_url))
 )

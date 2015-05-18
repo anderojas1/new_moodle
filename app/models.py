@@ -337,5 +337,37 @@ class Ternaria(models.Model):
 		return ('borrar_ternaria', [self.slug])
 
 #+--------------------------------------------------+
-#+                  CLASE TERNARIA                  +
+#+            CLASE HISTORIALACADEMICO              +
 #+--------------------------------------------------+
+
+class HistorialAcademico(models.Model):
+	opt_estudio = ((0, 'Primaria'), (1, 'Bachillerato'), (2, 'Tecnico'), (3, 'Tecnologo'), (4, 'Profesional'), (4, 'Especialización'), (5, 'Doctorado'))
+	identificador = models.CharField(max_length=15, primary_key=True)
+	titulo = models.CharField(max_length=30)
+	leader_teacher = models.ForeignKey(LeaderTeacher)
+	tipo = models.PositiveSmallIntegerField(choices=opt_estudio)
+	institucion = models.CharField(max_length=30)
+	fecha = models.DateField()
+	slug = models.SlugField()
+
+	class Meta:
+		ordering = ['titulo']
+
+	def __str__(self):
+		return self.titulo
+
+	def save(self, *args, **kwargs):
+		self.slug = self.identificador
+		super(HistorialAcademico, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_HistorialAcademico', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_HistorialAcademico', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_HistorialAcademico', [self.slug])

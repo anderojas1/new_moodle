@@ -1,5 +1,5 @@
 from django import forms
-from .models import LeaderTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria
+from .models import LeaderTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
 
 class LeaderTeacherForm(forms.ModelForm):
 	class Meta:
@@ -66,3 +66,11 @@ class TernariaForm(forms.ModelForm):
 	class Meta:
 		model = Ternaria
 		fields = ('identificador', 'leader_teacher', 'actividad', 'cohorte', 'nota')
+
+#+--------------------------------------------------+
+#+            CLASE HISTORIALACADEMICO              +
+#+--------------------------------------------------+
+class HistorialAcademicoForm(forms.ModelForm):
+	class Meta:
+		model = HistorialAcademico
+		fields = ('identificador', 'titulo', 'leader_teacher', 'tipo', 'institucion', 'fecha')

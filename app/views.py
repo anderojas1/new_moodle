@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
-from .forms import LeaderTeacherForm, MatriculaForm, CohorteForm, CursoForm, AreaForm, UsuarioForm, ActividadForm, TernariaForm
-from .models import LeaderTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria
+from .forms import LeaderTeacherForm, MatriculaForm, CohorteForm, CursoForm, AreaForm, UsuarioForm, ActividadForm, TernariaForm, HistorialAcademicoForm
+from .models import LeaderTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
 # Create your views here.
 
 class LeaderMixin(object):
@@ -244,3 +244,33 @@ class BorrarTernaria(TernariaMixin, DeleteView):
 
 class ListarTernaria(TernariaMixin, ListView):
 	template_name = 'app/listado_ternaria.html'
+
+#+--------------------------------------------------+
+#+            CLASE HISTORIALACADEMICO              +
+#+--------------------------------------------------+
+class HistorialAcademicoMixin(object):
+	model = HistorialAcademico
+	def get_context_data(self, **kwargs):
+		kwargs.update({'object_name':'HistorialAcademico'})
+		return kwargs
+
+class HistorialAcademicoFormMixin(HistorialAcademicoMixin):
+	form_class = HistorialAcademicoForm
+	template_name = 'app/object_form.html'
+
+class DetallesHistorialAcademico(HistorialAcademicoMixin, DetailView):
+    pass
+
+class CrearHistorialAcademico(HistorialAcademicoFormMixin, CreateView):
+    pass
+
+class EditarHistorialAcademico(HistorialAcademicoFormMixin, UpdateView):
+    pass
+
+class BorrarHistorialAcademico(HistorialAcademicoMixin, DeleteView):
+	template_name = 'app/object_confirm_delete.html'
+	def get_success_url(self):
+		return ('listar_historialacademico')
+
+class ListarHistorialAcademico(HistorialAcademicoMixin, ListView):
+	template_name = 'app/listado_historialacademico.html'
