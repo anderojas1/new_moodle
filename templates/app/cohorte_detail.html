@@ -3,6 +3,10 @@
 {% block title %}Información {{object}}{% endblock %}
 
 {% block content %}
+
+<h1>Cohorte {{object.numero_cohorte}}-{{object.semestre}} registrada exitosamente</h1>
+<p>Datos Registrados:</p>
+
 <table>
 	<tr><th>Cohorte Numero:</th><td>{{object.numero_cohorte}}</td></tr>
 	<tr><th>Semestre Cohorte:</th><td>{{object.semestre}}</td></tr>

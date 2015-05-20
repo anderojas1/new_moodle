@@ -3,6 +3,10 @@
 {% block title %}Información {{object}}{% endblock %}
 
 {% block content %}
+
+<h1>Actividad {{object.titulo}} registrada exitosamente</h1>
+<p>Datos Registrados:</p>
+
 <table>
 <tr><th>Titulo:</th><td>{{object.titulo}}</td></tr>
 <tr><th>Descripcion:</th><td>{{object.descripcion}}</td></tr>
@@ -10,4 +14,5 @@
 <tr><th>Fecha de inicio:</th><td>{{object.fecha_inicio}}</td></tr>
 <tr><th>Fecha de cierre:</th><td>{{object.fecha_cierre}}</td></tr>
 </table>
+
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from app.correo import Correo
+from correo import *
 
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
@@ -26,7 +26,7 @@ class Persona(models.Model):
 	patron_numero_cedula = RegexValidator(regex='^[0-9]*$')
 	patron_numero_celular = RegexValidator(regex='^[0-9]*$')
 	patron_solo_string = RegexValidator(regex='^[a-zA-Z\ ]*$')
-	cedula = models.CharField(primary_key=True, max_length=20, validators=[patron_numero_cedula])
+	cedula = models.CharField(primary_key=True, max_length=30, validators=[patron_numero_cedula])
 	nombre = models.CharField(max_length=30, validators=[patron_solo_string])
 	apellidos = models.CharField(max_length=40, validators=[patron_solo_string])
 	fecha_nacimiento = models.DateField()
@@ -57,10 +57,6 @@ class LeaderTeacher(Persona):
 	def save(self, *args, **kwargs):
 		self.slug = self.cedula
 		super(LeaderTeacher, self).save(*args, **kwargs)
-
-		#Enviar Correo
-		objMensaje = Correo("ciersurcolombia@gmail.com", "univalle", "ciersurcolombia@gmail.co")
-		objMensaje.enviarMensaje(self.email, self.nombre)
 
 	@models.permalink
 	def get_absolute_url(self):
@@ -109,6 +105,10 @@ class SecretariaEducacion(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.slug = self.codigo
+
+		objMensaje = Correo("ciersurcolombia@gmail.com", "univalle", "ciersurcolombia@gmail.co")
+		objMensaje.enviarMensaje("julia.canacuan@gmail.com", "prueba de python")
+
 		super(InstitucionEducativa, self).save(*args, **kwargs)
 
 #+--------------------------------------------------+

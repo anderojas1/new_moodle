@@ -3,10 +3,15 @@
 {% block title %}Información {{object}}{% endblock %}
 
 {% block content %}
+
+<h1>Historial Academico del Leader Teacher {{object.leader_teacher}} registrado exitosamente</h1>
+<p>Datos Registrados:</p>
+
 <table>
 <tr><th>Titulo:</th><td>{{object.titulo}}</td></tr>
 <tr><th>Leader Teacher:</th><td>{{object.leader_teacher}}</td></tr>
 <tr><th>Institucion:</th><td>{{object.institucion}}</td></tr>
 <tr><th>Fecha:</th><td>{{object.fecha}}</td></tr>
 </table>
+
 {% endblock %}
