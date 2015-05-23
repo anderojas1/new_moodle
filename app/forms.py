@@ -1,11 +1,19 @@
 from django import forms
-from .models import LeaderTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
+from .models import LeaderTeacher, MasterTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
 
 class LeaderTeacherForm(forms.ModelForm):
 	class Meta:
 		model = LeaderTeacher
 		fields = ('cedula', 'nombre', 'apellidos', 'fecha_nacimiento', 'sexo', 'email', 'celular',
 			'institucion', 'nivel_estudio')
+
+##Master Teacher
+
+class MasterTeacherForm(forms.ModelForm):
+	class Meta:
+		model = MasterTeacher
+		fields =  ('cedula', 'nombre', 'apellidos', 'fecha_nacimiento', 'sexo', 'email', 'celular')
+
 
 #+--------------------------------------------------+
 #+                  CODIGO NUEVO                    +

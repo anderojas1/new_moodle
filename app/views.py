@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
-from .forms import LeaderTeacherForm, MatriculaForm, CohorteForm, CursoForm, AreaForm, UsuarioForm, ActividadForm, TernariaForm, HistorialAcademicoForm
-from .models import LeaderTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
+from .forms import LeaderTeacherForm, MasterTeacherForm, MatriculaForm, CohorteForm, CursoForm, AreaForm, UsuarioForm, ActividadForm, TernariaForm, HistorialAcademicoForm
+from .models import LeaderTeacher, MasterTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
 # Create your views here.
 
 class LeaderMixin(object):
@@ -16,13 +16,13 @@ class LeaderFormMixin(LeaderMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesLeader(LeaderMixin, DetailView):
-    pass
+	pass
 
 class CrearLeader(LeaderFormMixin, CreateView):
-    pass
+	pass
 
 class EditarLeader(LeaderFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarLeader(LeaderMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -31,6 +31,35 @@ class BorrarLeader(LeaderMixin, DeleteView):
 
 class ListarLeader(LeaderMixin, ListView):
 	template_name = 'app/listado_lt.html'
+
+## Clase masrter teacher
+
+class MasterMixin(object):
+	model = MasterTeacher
+	def get_context_data(self, **kwargs):
+		kwargs.update({'object_name' : 'MasterTeacher'})
+		return kwargs
+
+class MasterFormMixin(MasterMixin):
+	form_class = MasterTeacherForm
+	template_name = 'app/object_form.html'
+
+class DetallesMaster(MasterMixin, DetailView):
+	pass
+
+class CrearMaster(MasterFormMixin, CreateView):
+	pass
+
+class EditarMaster(MasterFormMixin, UpdateView):
+	pass
+
+class BorrarMaster(MasterMixin, DeleteView):
+	template_name = 'app/object_confirm_delete.html'
+	def get_success_url(self):
+		return reverse_lazy('listar_MT')
+
+class ListarMaster(MasterMixin, ListView):
+	template_name = 'app/listado_mt.html'
 
 #+--------------------------------------------------+
 #+                  CODIGO NUEVO                    +
@@ -49,13 +78,13 @@ class MatriculaFormMixin(MatriculaMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesMatricula(MatriculaMixin, DetailView):
-    pass
+	pass
 
 class CrearMatricula(MatriculaFormMixin, CreateView):
-    pass
+	pass
 
 class EditarMatricula(MatriculaFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarMatricula(MatriculaMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -79,13 +108,13 @@ class CohorteFormMixin(CohorteMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesCohorte(CohorteMixin, DetailView):
-    pass
+	pass
 
 class CrearCohorte(CohorteFormMixin, CreateView):
-    pass
+	pass
 
 class EditarCohorte(CohorteFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarCohorte(CohorteMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -109,13 +138,13 @@ class CursoFormMixin(CursoMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesCurso(CursoMixin, DetailView):
-    pass
+	pass
 
 class CrearCurso(CursoFormMixin, CreateView):
-    pass
+	pass
 
 class EditarCurso(CursoFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarCurso(CursoMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -139,13 +168,13 @@ class AreaFormMixin(AreaMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesArea(AreaMixin, DetailView):
-    pass
+	pass
 
 class CrearArea(AreaFormMixin, CreateView):
-    pass
+	pass
 
 class EditarArea(AreaFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarArea(AreaMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -169,13 +198,13 @@ class UsuarioFormMixin(UsuarioMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesUsuario(UsuarioMixin, DetailView):
-    pass
+	pass
 
 class CrearUsuario(UsuarioFormMixin, CreateView):
-    pass
+	pass
 
 class EditarUsuario(UsuarioFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarUsuario(UsuarioMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -199,13 +228,13 @@ class ActividadFormMixin(ActividadMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesActividad(ActividadMixin, DetailView):
-    pass
+	pass
 
 class CrearActividad(ActividadFormMixin, CreateView):
-    pass
+	pass
 
 class EditarActividad(ActividadFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarActividad(ActividadMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -229,13 +258,13 @@ class TernariaFormMixin(TernariaMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesTernaria(TernariaMixin, DetailView):
-    pass
+	pass
 
 class CrearTernaria(TernariaFormMixin, CreateView):
-    pass
+	pass
 
 class EditarTernaria(TernariaFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarTernaria(TernariaMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'
@@ -259,13 +288,13 @@ class HistorialAcademicoFormMixin(HistorialAcademicoMixin):
 	template_name = 'app/object_form.html'
 
 class DetallesHistorialAcademico(HistorialAcademicoMixin, DetailView):
-    pass
+	pass
 
 class CrearHistorialAcademico(HistorialAcademicoFormMixin, CreateView):
-    pass
+	pass
 
 class EditarHistorialAcademico(HistorialAcademicoFormMixin, UpdateView):
-    pass
+	pass
 
 class BorrarHistorialAcademico(HistorialAcademicoMixin, DeleteView):
 	template_name = 'app/object_confirm_delete.html'

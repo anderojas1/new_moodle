@@ -28,7 +28,7 @@ from app.views import CrearUsuario, EditarUsuario, DetallesUsuario, BorrarUsuari
 from app.views import CrearActividad, EditarActividad, DetallesActividad, BorrarActividad, ListarActividad
 from app.views import CrearTernaria, EditarTernaria, DetallesTernaria, BorrarTernaria, ListarTernaria
 from app.views import CrearHistorialAcademico, EditarHistorialAcademico, DetallesHistorialAcademico,BorrarHistorialAcademico, ListarHistorialAcademico
-
+from app.views import CrearMaster, ListarMaster, EditarMaster, DetallesMaster, BorrarMaster
 
 institucion_url = patterns ('',
 )
@@ -43,6 +43,17 @@ leaderteacher_url = patterns ('',
 
 secretaria_url = patterns ('',
     url(r'^institucion/', include(institucion_url)),
+)
+
+
+##Url master teacher
+
+masterteacher_url = patterns ('',
+    url(r'^registrar$', CrearMaster.as_view(), name='crear_master'),
+    url(r'^listados$', ListarMaster.as_view(), name='listar_MT'),
+    url(r'^(?P<slug>[\w-]+)/actualizar$', EditarMaster.as_view(), name='editar_MT'),
+    url(r'^(?P<slug>[\w-]+)/consultar$', DetallesMaster.as_view(), name='consultar_MT'),
+    url(r'^(?P<slug>[\w-]+)/eliminar$', BorrarMaster.as_view(), name='eliminar_MT')
 )
 
 #+--------------------------------------------------+
@@ -144,5 +155,6 @@ urlpatterns = patterns ('',
     url(r'^actividad/', include(actividad_url)),
     url(r'^ternaria/', include(ternaria_url)),
     url(r'^historial_academico/', include(historialacademico_url)),
-    url(r'^usuario/', include(usuario_url))
+    url(r'^usuario/', include(usuario_url)),
+    url(r'^master/', include(masterteacher_url))
 )

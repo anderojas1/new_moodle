@@ -3,22 +3,22 @@ from django.core.validators import RegexValidator
 from app.correo import Correo
 
 class IntegerRangeField(models.IntegerField):
-    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
-        self.min_value, self.max_value = min_value, max_value
-        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
-    def formfield(self, **kwargs):
-        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
-        defaults.update(kwargs)
-        return super(IntegerRangeField, self).formfield(**defaults)
+	def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+		self.min_value, self.max_value = min_value, max_value
+		models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+	def formfield(self, **kwargs):
+		defaults = {'min_value': self.min_value, 'max_value':self.max_value}
+		defaults.update(kwargs)
+		return super(IntegerRangeField, self).formfield(**defaults)
 
 class FloatRangeField(models.FloatField):
-    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
-        self.min_value, self.max_value = min_value, max_value
-        models.FloatField.__init__(self, verbose_name, name, **kwargs)
-    def formfield(self, **kwargs):
-        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
-        defaults.update(kwargs)
-        return super(FloatRangeField, self).formfield(**defaults)
+	def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+		self.min_value, self.max_value = min_value, max_value
+		models.FloatField.__init__(self, verbose_name, name, **kwargs)
+	def formfield(self, **kwargs):
+		defaults = {'min_value': self.min_value, 'max_value':self.max_value}
+		defaults.update(kwargs)
+		return super(FloatRangeField, self).formfield(**defaults)
 
 # Create your models here.
 class Persona(models.Model):
@@ -74,6 +74,34 @@ class LeaderTeacher(Persona):
 	def get_delete_url(self):
 		return ('borrar_LT', [self.slug])
 
+
+class MasterTeacher(Persona):
+
+	anios_exp = models.CharField(max_length = 2)
+
+	class Meta:
+		ordering = ['anios_exp']
+
+	def __str__(self):
+		return self.nombre + " " + self.apellidos
+
+	def save(self, *args, **kwargs):
+		self.slug = self.cedula
+		super(MasterTeacher, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_MT', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_MT', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_MT', [self.slug])
+
+
 class InstitucionEducativa(models.Model):
 	opt_zona = ((0, 'Urbana'), (1, 'Urbana marginal'), (2, 'Rural'), (3, 'Rural de difícil acceso'))
 	opt_modalidad = ((0, 'Académica'),(1, 'Ténica'), (2, 'Agropecuaria'),(3, 'Comercial'),(4, 'Promoción Social')
@@ -105,7 +133,7 @@ class SecretariaEducacion(models.Model):
 		ordering = ['nombre']
 
 	def __str__(self):
-		return nombre
+		return self.nombre
 
 	def save(self, *args, **kwargs):
 		self.slug = self.codigo
