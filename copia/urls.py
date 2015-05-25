@@ -29,9 +29,9 @@ from app.views import CrearActividad, EditarActividad, DetallesActividad, Borrar
 from app.views import CrearTernaria, EditarTernaria, DetallesTernaria, BorrarTernaria, ListarTernaria
 from app.views import CrearHistorialAcademico, EditarHistorialAcademico, DetallesHistorialAcademico,BorrarHistorialAcademico, ListarHistorialAcademico
 from app.views import CrearMaster, ListarMaster, EditarMaster, DetallesMaster, BorrarMaster
+from app.views import CrearSecretariaEducacion, BorrarSecretariaEducacion, ListarSecretariaEducacion, DetallesSecretariaEducacion, EditarSecretariaEducacion
+from app.views import secretaria
 
-institucion_url = patterns ('',
-)
 
 leaderteacher_url = patterns ('',
 	url(r'^registrar$', CrearLeader.as_view(), name='crear_leader'),
@@ -39,10 +39,6 @@ leaderteacher_url = patterns ('',
     url(r'^(?P<slug>[\w-]+)/actualizar$', EditarLeader.as_view(), name='editar_LT'),
     url(r'^(?P<slug>[\w-]+)/consultar$', DetallesLeader.as_view(), name='consultar_LT'),
     url(r'^(?P<slug>[\w-]+)/eliminar$', BorrarLeader.as_view(), name='eliminar_LT'),
-)
-
-secretaria_url = patterns ('',
-    url(r'^institucion/', include(institucion_url)),
 )
 
 
@@ -143,6 +139,15 @@ historialacademico_url = patterns ('',
     url(r'^(?P<slug>[\w-]+)/consultar$', DetallesHistorialAcademico.as_view(), name='consultar_historialacademico'),
     url(r'^(?P<slug>[\w-]+)/eliminar$', BorrarHistorialAcademico.as_view(), name='eliminar_historialacademico'))
 
+secretaria_url = patterns ('',
+    url(r'^lista$', secretaria, name='lista_secretaria'),
+    url(r'^registrar$', CrearSecretariaEducacion.as_view(), name='crear_secretaria'),
+    url(r'^listados$', ListarSecretariaEducacion.as_view(), name='listar_secretarias'),
+    url(r'^(?P<slug>[\w-]+)/actualizar$', EditarSecretariaEducacion.as_view(), name='editar_secretaria'),
+    url(r'^(?P<slug>[\w-]+)/consultar$', DetallesSecretariaEducacion.as_view(), name='consultar_secretaria'),
+    url(r'^(?P<slug>[\w-]+)/eliminar$', BorrarSecretariaEducacion.as_view(), name='eliminar_secretaria')
+)
+
 
 urlpatterns = patterns ('',
     url(r'^admin/', include(admin.site.urls)),
@@ -156,5 +161,6 @@ urlpatterns = patterns ('',
     url(r'^ternaria/', include(ternaria_url)),
     url(r'^historial_academico/', include(historialacademico_url)),
     url(r'^usuario/', include(usuario_url)),
-    url(r'^master/', include(masterteacher_url))
+    url(r'^master/', include(masterteacher_url)),
+    url(r'^secretaria/', include(secretaria_url)),
 )

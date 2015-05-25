@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
 from .forms import LeaderTeacherForm, MasterTeacherForm, MatriculaForm, CohorteForm, CursoForm, AreaForm, UsuarioForm, ActividadForm, TernariaForm, HistorialAcademicoForm
-from .models import LeaderTeacher, MasterTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
+from .models import LeaderTeacher, MasterTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico, SecretariaEducacion
+from .forms import SecretariaEducacionForm
+
 # Create your views here.
 
 class LeaderMixin(object):
@@ -303,3 +305,41 @@ class BorrarHistorialAcademico(HistorialAcademicoMixin, DeleteView):
 
 class ListarHistorialAcademico(HistorialAcademicoMixin, ListView):
 	template_name = 'app/listado_historialacademico.html'
+
+
+
+
+#****************************************************#
+#			Secretaria de educacion					 #
+#****************************************************#
+
+class SecretariaEducacionMixin(object):
+	model = SecretariaEducacion
+	def get_context_data(self, **kwargs):
+		kwargs.update({'object_name':'SecretariaEducacion'})
+		return kwargs
+
+class SecretariaEducacionFormMixin(SecretariaEducacionMixin):
+	form_class = SecretariaEducacionForm
+	template_name = 'app/object_form.html'
+
+class DetallesSecretariaEducacion(SecretariaEducacionMixin, DetailView):
+	pass
+
+class CrearSecretariaEducacion(SecretariaEducacionFormMixin, CreateView):
+	pass
+
+class EditarSecretariaEducacion(SecretariaEducacionFormMixin, UpdateView):
+	pass
+
+class BorrarSecretariaEducacion(SecretariaEducacionMixin, DeleteView):
+	template_name = 'app/object_confirm_delete.html'
+	def get_success_url(self):
+		return reverse_lazy('listar_secretarias')
+
+class ListarSecretariaEducacion(SecretariaEducacionMixin, ListView):
+	template_name = 'app/listado_secretarias.html'
+	context_object_name = 'listado'
+
+def secretaria(request):
+    return render(request, "app/secretarias.html", {"secretarias": SecretariaEducacion.objects.all()})

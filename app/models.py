@@ -137,7 +137,19 @@ class SecretariaEducacion(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.slug = self.codigo
-		super(InstitucionEducativa, self).save(*args, **kwargs)
+		super(SecretariaEducacion, self).save(*args, **kwargs)
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('consultar_secretaria', [self.slug])
+
+	@models.permalink
+	def get_update_url(self):
+		return ('actualizar_secretaria', [self.slug])
+
+	@models.permalink
+	def get_delete_url(self):
+		return ('borrar_secretaria', [self.slug])
 
 #+--------------------------------------------------+
 #+                  CODIGO NUEVO                    +

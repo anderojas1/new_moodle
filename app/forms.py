@@ -1,5 +1,7 @@
 from django import forms
 from .models import LeaderTeacher, MasterTeacher, Matricula, Cohorte, Curso, Area, Usuario, Actividad, Ternaria, HistorialAcademico
+from .models import SecretariaEducacion
+
 
 class LeaderTeacherForm(forms.ModelForm):
 	class Meta:
@@ -82,3 +84,15 @@ class HistorialAcademicoForm(forms.ModelForm):
 	class Meta:
 		model = HistorialAcademico
 		fields = ('identificador', 'titulo', 'leader_teacher', 'tipo', 'institucion', 'fecha')
+
+
+
+######################################################
+#			CLASE SECRETARIAEDUCACION
+######################################################
+
+
+class SecretariaEducacionForm(forms.ModelForm):
+	class Meta:
+		model = SecretariaEducacion
+		fields = ('codigo', 'entidad', 'nombre')
